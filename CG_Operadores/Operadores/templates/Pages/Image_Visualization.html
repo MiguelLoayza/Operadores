@@ -8,7 +8,7 @@
     <form id="Change_Image">
         {% csrf_token %}
         <h3> Imagen_Original </h3>
-        <img src="{{ imagen }}">
+        <img src="{{ imagen }}"  id = "ori_img">
         <input type="hidden" id="camino" name="camino" value="{{camino}}" >
         <input type="hidden" id="nombre" name="nombre" value="{{nombre}}" >
         <div class="form">
@@ -39,6 +39,7 @@
     <h2> Imagen_Modificada con Operador Exponencial </h2>
     <img src="" id="img_exp" name="img_exp">
     <input type="hidden" value="No hay Data, fallo" id="Check" name="Check">
+    <button onclick="usa_este()">Usar Este</button>
 </div>
 
 {% endblock centro %}
@@ -46,6 +47,17 @@
 
 {% block codes_js %}
 <script src="{% static 'js/funciones.js' %}"></script>
+
+<script>
+    function usa_este(){
+     var direccion = new String(document.getElementById('img_exp').src);
+     console.log(direccion);
+     document.getElementById('ori_img').src=direccion;
+    }
+</script>
+
+
+
 
 <script>
         $("#Change_Image").submit(function (e) {
@@ -60,7 +72,13 @@
                 url: url_to_send,
                 data: serializedData,
                 success: function (response) {
-                    console.log(response);
+                    if(response.Estado == "Works"){
+                        console.log('llege la ptm');
+                        document.getElementById('img_exp').src="/media/cat.99/exponential_20.0_1.01.png";
+                    // media/cat.99/exponential_20.0_1.01.png
+
+                    }
+
                 },
                 error: function (response) {
                     // alert the error if any error occured
